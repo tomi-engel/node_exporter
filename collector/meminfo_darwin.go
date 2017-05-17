@@ -11,7 +11,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// +build !nomeminfo
+// +build !nomeminfo darwin
+
+// The node_exporter output for Darwin and Linux has basically nothing in common. They provide similar numbers
+// but under very different names.
+//
+// TOCHECK: Should we provide precise native identifiers too?
+//          For backward compatibility we will currently use both.
+//
+// However .. here is an attempt to map the few Darwin metrics to their Linux counterparts
+//
+// Darin                                    Linux
+//
+// node_memory_active_bytes_total
+// node_memory_bytes_total                  node_memory_MemTotal
+// node_memory_free_bytes_total             node_memory_MemFree
+// node_memory_inactive_bytes_total         node_memory_Inactive
+// node_memory_swapped_in_pages_total
+// node_memory_swapped_out_pages_total
+// node_memory_wired_bytes_total
+//
+//
 
 package collector
 
@@ -47,6 +67,7 @@ func (c *meminfoCollector) getMemInfo() (map[string]float64, error) {
 	total := binary.LittleEndian.Uint64([]byte(totalb + "\x00"))
 
 	ps := C.natural_t(syscall.Getpagesize())
+
 	return map[string]float64{
 		"active_bytes_total":      float64(ps * vmstat.active_count),
 		"inactive_bytes_total":    float64(ps * vmstat.inactive_count),
@@ -55,5 +76,11 @@ func (c *meminfoCollector) getMemInfo() (map[string]float64, error) {
 		"swapped_in_pages_total":  float64(ps * vmstat.pageins),
 		"swapped_out_pages_total": float64(ps * vmstat.pageouts),
 		"bytes_total":             float64(total),
+
+		// We will also provide the "Linux" style metric names
+
+		"MemTotal": float64(total),
+		"MemFree":  float64(ps * vmstat.free_count),
+		"Inactive": float64(ps * vmstat.inactive_count),
 	}, nil
 }
