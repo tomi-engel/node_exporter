@@ -24,9 +24,14 @@ import (
 	"regexp"
 	"time"
 
-	"./ganglia"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/log"
+
+	// It really is silly that in the year 2017 a Go 1.8.1 release can not handle relative pathes.
+	// I known, I known .. "Not supporting local imports was a very deliberate decision".
+	// This makes forking projects a really big pain.
+	//
+	"github.com/tomi-engel/node_exporter/collector/ganglia"
 )
 
 const (
