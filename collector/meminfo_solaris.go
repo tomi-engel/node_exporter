@@ -24,7 +24,7 @@
 //
 // node_memory_active_bytes_total
 // node_memory_bytes_total                  node_memory_MemTotal
-// node_memory_free_bytes_total
+// node_memory_free_bytes_total             node_memory_MemFree
 // node_memory_inactive_bytes_total         node_memory_Inactive
 // node_memory_swapped_in_pages_total
 // node_memory_swapped_out_pages_total
