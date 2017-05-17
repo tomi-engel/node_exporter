@@ -9,7 +9,7 @@ A Prometheus node_exporter with enhanced Solaris machine metrics
 
 The regular [node_exporter](https://github.com/prometheus/node_exporter) from the [Prometheus project](https://prometheus.io) does typically not compile on Solaris based systems and offers very few features. Most likely because Linux has replaced Solaris systems as the de-facto server OS.
 
-This is a fork of the original [node_exporter](https://github.com/prometheus/node_exporter) in order to get a version that we can use on SmartOS or other Solaris-like systems.
+This is a fork of the original [node_exporter](https://github.com/prometheus/node_exporter) in order to get a version that can be used on SmartOS or other Solaris-like systems.
 
 ## Collectors
 ### Planned additions
@@ -23,13 +23,13 @@ zfs | Exposes [ZFS](http://open-zfs.org/) performance statistics. | Solaris, [Li
 
 
 
-We also will try to align relevant metrics between platforms where we need it. For example iit s not very pragmatic to call "Free Memory" or "Total Memory"  differently on different systems, if it is the same metric after all.
+We also will try to align relevant metrics between platforms where we need it. For example it s not very pragmatic to call "Free Memory" or "Total Memory"  differently on different systems, if it is the same metric after all.
 
 
 
 ## Change Log
 
-We want to keep the official Change Log untouched an so we are tracking our changes in this location:
+We want to keep the official Change Log untouched and so we are tracking our changes in this location:
 
 v0.14.0.0517
 
@@ -45,10 +45,10 @@ Known bugs:
 
 ## About the Rest …
 
-The rest of this README is mainly taken straight from the `node_exporter` project.
+The rest of this README is taken straight from the `node_exporter` project.
 
 
-> Please use the original [node_exporter project](https://github.com/mistifyio/go-zfs) … unless you really care for experimental Solaris support.
+> Please use the original [node_exporter project](https://github.com/prometheus/node_exporter) … unless you really care for our experimental Solaris support.
 
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/prometheus/node_exporter)][goreportcard]
