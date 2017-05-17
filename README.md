@@ -1,3 +1,59 @@
+
+# node_exporter … with better Solaris support
+
+A Prometheus node_exporter with enhanced Solaris machine metrics
+
+[![GoDoc](https://godoc.org/github.com/tomi-engel/node_exporter?status.svg)](https://godoc.org/github.com/tomi-engel/node_exporter)
+
+## Fork Introduction
+
+The regular [node_exporter](https://github.com/prometheus/node_exporter) from the [Prometheus project](https://prometheus.io) does typically not compile on Solaris based systems and offers very few features. Most likely because Linux has replaced Solaris systems as the de-facto server OS.
+
+This is a fork of the original [node_exporter](https://github.com/prometheus/node_exporter) in order to get a version that we can use on SmartOS or other Solaris-like systems.
+
+## Collectors
+### Planned additions
+
+We try to activate all the missing collectors which our deployment needs. This will initially be:
+
+Name     | Description | OS
+---------|-------------|----
+meminfo | Exposes memory statistics. | Solaris, Darwin, Dragonfly, FreeBSD, Linux
+zfs | Exposes [ZFS](http://open-zfs.org/) performance statistics. | Solaris, [Linux](http://zfsonlinux.org/)
+
+
+
+We also will try to align relevant metrics between platforms where we need it. For example iit s not very pragmatic to call "Free Memory" or "Total Memory"  differently on different systems, if it is the same metric after all.
+
+
+
+## Change Log
+
+We want to keep the official Change Log untouched an so we are tracking our changes in this location:
+
+v0.14.0.0517
+
+- Released on 2017.05.?
+- Added new code in the meminfo_solaris.go file for basic meminfo readings
+- …
+
+Known bugs:
+
+- still does not compile out of the box on Solaris.
+
+
+
+## About the Rest …
+
+The rest of this README is mainly taken straight from the `node_exporter` project.
+
+
+> Please use the original [node_exporter project](https://github.com/mistifyio/go-zfs) … unless you really care for experimental Solaris support.
+
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/prometheus/node_exporter)][goreportcard]
+
+
 # Node exporter [![Build Status](https://travis-ci.org/prometheus/node_exporter.svg)][travis]
 
 [![CircleCI](https://circleci.com/gh/prometheus/node_exporter/tree/master.svg?style=shield)][circleci]
