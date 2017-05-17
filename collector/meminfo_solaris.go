@@ -13,22 +13,14 @@
 
 // +build solaris
 
-// The node_exporter output for Darwin and Linux has basically nothing in common. They provide similar numbers
-// but under very different names.
 // Since Linux seems the most common server system our Solaris module will try to map to the Linux identifiers
 // TOCHECK: Should we provide precise native identifiers too?
 //
-// However .. here is an attempt to map the few Darin metrics to their Linux counterparts
+// Linux                           Solaris
 //
-// Darin                                    Linux
-//
-// node_memory_active_bytes_total
-// node_memory_bytes_total                  node_memory_MemTotal
-// node_memory_free_bytes_total             node_memory_MemFree
-// node_memory_inactive_bytes_total         node_memory_Inactive
-// node_memory_swapped_in_pages_total
-// node_memory_swapped_out_pages_total
-// node_memory_wired_bytes_total
+// node_memory_MemTotal
+// node_memory_MemFree
+// node_memory_Inactive
 //
 //
 
@@ -108,26 +100,26 @@ func (c *meminfoCollector) getMemInfo() (map[string]float64, error) {
 	//
 	// zfs:0:arcstats:size .. "ZFS ARC cache bytes used within the mdb::memstat:Kernel .. but _not_ including mdb::memstat:ZFS_File_Data"
 
-	// bytes_total
+	// MemTotal
 	// - the amount or bytes the system has in total
 	//
-	memInfo["bytes_total"] = float64(getNamedUint64Val(kstatTable, "physmem") * solarisPageSize)
+	memInfo["MemTotal"] = float64(getNamedUint64Val(kstatTable, "physmem") * solarisPageSize)
 
 	// wired_bytes_total
 	// - basically what we see in "mdb::memstat" under the label "Kernel".
 	//   This also includes the ZFS ARC cache.
 	//
 
-	// free_bytes_total
+	// MemFree
 	// - basically what we see in "mdb::memstat" under the label "Free (freelist)".
 	//   The "Free (cachelist)" could be freed up too, but most likely only under memory
 	//   pressure, which is why we would not count it as "free".
 	// - the kstat "unix:0:system_pages:freemem" does not seem to produce identical values
 	//   to the memstat but it seems to be in the same ballpark.
 	//
-	memInfo["free_bytes_total"] = float64(getNamedUint64Val(kstatTable, "freemem") * solarisPageSize)
+	memInfo["MemFree"] = float64(getNamedUint64Val(kstatTable, "freemem") * solarisPageSize)
 
-	// swapped_in_pages_total
+	// Darwin:swapped_in_pages_total
 	// - on Darwin this is reported in bytes, not pages! "Pageins" * "Page size (4096 bytes)"
 	//
 	//memInfo["swapped_in_pages_total"] = float64(getNamedUint64Val(kstatTable, "physmem") * solarisPageSize)
